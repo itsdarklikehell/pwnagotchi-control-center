@@ -10,7 +10,7 @@ UNMOUNT() {
     fi
 }
 BACKUP() {
-    sudo dd if=/dev/"${SD_DEVICE}" of="$BACKUP_DIR/${BACKUP_NAME}.img"
+    sudo dd if=/dev/"${SD_DEVICE}" of="$BACKUP_DIR/${BACKUP_NAME}.img" bs=1M status=progress
 }
 
 mkdir ./Scripts/Local/PiShrink
@@ -36,12 +36,10 @@ else
     echo "User selected Cancel."
     exit
 fi
-
-df -h /dev/sd* >/tmp/dflist.txt
-df -h /dev/mmc* >/tmp/mmclist.txt
+sudo apt install hwinfo
+grep -Ff <(hwinfo --disk --short) <(hwinfo --usb --short) >/tmp/dflist.tx
 
 whiptail --title "Example Dialog" --textbox /tmp/dflist.txt $LINES $COLUMNS
-whiptail --title "Example Dialog" --textbox /tmp/mmclist.txt $LINES $COLUMNS
 
 SD_DEVICE=$(whiptail --inputbox "What is the Sd card?" $LINES $COLUMNS "${SD_DEVICE}" --title "Sd Card." 3>&1 1>&2 2>&3)
 exitstatus=$?
