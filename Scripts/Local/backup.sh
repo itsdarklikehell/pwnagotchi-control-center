@@ -8,6 +8,10 @@ UNMOUNT() {
         exit
     fi
 }
+BACKUP() {
+    sudo dd if=/dev/"${SD_DEVICE}" of="$BACKUP_DIR/$PWNAGOTCHI_HOSTNAME-$PWNAGOTCHI_VERSION-$(date '+%F-%T').img"
+}
+
 mkdir ./Scripts/Local/PiShrink
 cd ./Scripts/Local/PiShrink || exit
 wget https://raw.githubusercontent.com/Drewsif/PiShrink/master/pishrink.sh
@@ -23,6 +27,15 @@ else
     exit
 fi
 
+BACKUP_NAME=$(whiptail --inputbox "What is the Backup dir?" $LINES $COLUMNS "${BACKUP_NAME}" --title "Backup dir." 3>&1 1>&2 2>&3)
+exitstatus=$?
+if [ $exitstatus = 0 ]; then
+    echo "User selected Ok and entered $BACKUP_NAME"
+else
+    echo "User selected Cancel."
+    exit
+fi
+
 df -h /dev/sd* >/tmp/dflist.txt
 df -h /dev/mmc* >/tmp/mmclist.txt
 
@@ -33,6 +46,7 @@ SD_DEVICE=$(whiptail --inputbox "What is the Sd card?" $LINES $COLUMNS "${SD_DEV
 exitstatus=$?
 if [ $exitstatus = 0 ]; then
     echo "User selected Ok and entered $SD_DEVICE"
+    UNMOUNT
 else
     echo "User selected Cancel."
     exit
