@@ -37,7 +37,7 @@ else
     exit
 fi
 sudo apt install hwinfo
-grep -Ff <(hwinfo --disk --short) <(hwinfo --usb --short) >/tmp/dflist.tx
+grep -Ff <(hwinfo --disk --short) <(hwinfo --usb --short) >/tmp/dflist.txt
 
 whiptail --title "Example Dialog" --textbox /tmp/dflist.txt $LINES $COLUMNS
 
