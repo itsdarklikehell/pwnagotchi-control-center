@@ -38,7 +38,6 @@ if [ "$option" == "Flash Sd" ]; then
             exit
         else
             unzip -p "pwnagotchi-raspbian-lite-${PWNAGOTCHI_VERSION}.zip" | dd of="${SD_DEVICE}" bs=1M
-            zcat "pwnagotchi-raspbian-lite-${PWNAGOTCHI_VERSION}.zip" >"${SD_DEVICE}"
         fi
     fi
 fi
