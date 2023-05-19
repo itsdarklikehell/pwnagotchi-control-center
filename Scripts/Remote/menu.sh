@@ -13,9 +13,8 @@ if [ $exitstatus = 0 ]; then
     echo "User selected Ok and entered " $option
 else
     echo "User selected Cancel."
+    exit
 fi
-
-echo "(Exit status was $exitstatus)"
 
 if [ "$option" == "Setup connection" ]; then
     echo "WIP."

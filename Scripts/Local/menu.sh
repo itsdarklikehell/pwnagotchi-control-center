@@ -13,6 +13,7 @@ if [ $exitstatus = 0 ]; then
     echo "User selected Ok and entered " $option
 else
     echo "User selected Cancel."
+    exit
 fi
 
 if [ "$option" == "Download Image" ]; then
