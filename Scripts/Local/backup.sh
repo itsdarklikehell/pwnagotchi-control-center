@@ -1,5 +1,6 @@
 #!/bin/bash
 
+mkdir ./Scripts/Local/PiShrink
 cd ./Scripts/Local/PiShrink || exit
 wget https://raw.githubusercontent.com/Drewsif/PiShrink/master/pishrink.sh
 chmod +x pishrink.sh
