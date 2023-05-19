@@ -1,4 +1,8 @@
 #!/bin/bash
+#Local Setings
 export DOWNLOAD_DIR=~/Downloads
 export PWNAGOTCHI_VERSION="v1.5.5"
 export SD_DEVICE="/dev/sdc"
+#Remote Setings
+export PWNAGOTCHI_HOSTNAME="wifikirby"
+export PWNAGOTCHI_BTIP="10.0.0.2"
