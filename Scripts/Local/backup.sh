@@ -4,7 +4,7 @@ mkdir ./Scripts/Local/PiShrink
 cd ./Scripts/Local/PiShrink || exit
 wget https://raw.githubusercontent.com/Drewsif/PiShrink/master/pishrink.sh
 chmod +x pishrink.sh
-sudo mv pishrink.sh /usr/local/bin
+sudo cp pishrink.sh /usr/local/bin
 
 BACKUP_DIR=$(whiptail --inputbox "What is the Backup dir?" $LINES $COLUMNS "${BACKUP_DIR}" --title "Backup dir." 3>&1 1>&2 2>&3)
 exitstatus=$?
