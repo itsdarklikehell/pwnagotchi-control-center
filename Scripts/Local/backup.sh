@@ -16,8 +16,10 @@ else
 fi
 
 df -h /dev/sd* >/tmp/dflist.txt
+df -h /dev/mmc* >/tmp/mmclist.txt
 
 whiptail --title "Example Dialog" --textbox /tmp/dflist.txt $LINES $COLUMNS
+whiptail --title "Example Dialog" --textbox /tmp/mmclist.txt $LINES $COLUMNS
 
 SD_DEVICE=$(whiptail --inputbox "What is the Sd card?" $LINES $COLUMNS "${SD_DEVICE}" --title "Backup dir." 3>&1 1>&2 2>&3)
 exitstatus=$?
