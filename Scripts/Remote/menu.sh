@@ -5,7 +5,8 @@ option=$(
         "Setup bluetooth-pan connection" "Setup a bluetooth-pan connection share with a pwnagotchi." \
         "Setup ethernet connection" "Setup a ethernet connection share with a pwnagotchi." \
         "Setup wlan-ap connection" "Setup a wlan-ap connection share with a pwnagotchi." \
-        "Remotely Modify Config" "Modify a remote config.toml." \
+        "Modify Config" "Modify a remote config.toml." \
+        "install a plugin" "Modify a remote config.toml." \
         "Reboot pwnagotchi" "Reboot a remote pwnagotchi." \
         3>&1 1>&2 2>&3
 )
