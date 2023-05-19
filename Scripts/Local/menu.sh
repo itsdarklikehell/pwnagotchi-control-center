@@ -8,9 +8,8 @@ option=$(
         3>&1 1>&2 2>&3
 )
 exitstatus=$?
-
 if [ $exitstatus = 0 ]; then
-    echo "User selected Ok and entered " $option
+    echo "User selected Ok and entered $option"
 else
     echo "User selected Cancel."
     exit

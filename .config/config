@@ -3,6 +3,10 @@
 export DOWNLOAD_DIR=~/Downloads
 export PWNAGOTCHI_VERSION="v1.5.5"
 export SD_DEVICE="/dev/sdc"
+export ROOT_MOUNT_DIR="/media/${USER}/pwnacotchi-root"
+export BOOT_MOUNT_DIR="/media/${USER}/pwnacotchi-boot"
 #Remote Setings
+export PWNAGOTCHI_USERNAME="pi"
 export PWNAGOTCHI_HOSTNAME="wifikirby"
-export PWNAGOTCHI_BTIP="10.0.0.2"
+export PWNAGOTCHI_USBIP="10.0.0.2"
+export PWNAGOTCHI_ETHIP="192.168.1.6"
