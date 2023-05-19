@@ -2,9 +2,9 @@
 #Local Setings
 export DOWNLOAD_DIR=~/Downloads
 export PWNAGOTCHI_VERSION="v1.5.5"
-export SD_DEVICE="/dev/sdc"
-export ROOT_MOUNT_DIR="/media/${USER}/pwnacotchi-root"
-export BOOT_MOUNT_DIR="/media/${USER}/pwnacotchi-boot"
+export SD_DEVICE="/dev/sdc" # df -h /dev/sd*
+export ROOT_MOUNT_DIR="/media/usb0"
+export BOOT_MOUNT_DIR="/media/usb1"
 #Remote Setings
 export PWNAGOTCHI_USERNAME="pi"
 export PWNAGOTCHI_HOSTNAME="wifikirby"
