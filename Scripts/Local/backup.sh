@@ -1,4 +1,5 @@
 #!/bin/bash
+BACKUP_NAME=$PWNAGOTCHI_HOSTNAME-$PWNAGOTCHI_VERSION-$(date '+%F-%T')
 UNMOUNT() {
     if (whiptail --title "Are you sure you want to unmount ${SD_DEVICE}?" --yesno "Last check." $LINES $COLUMNS); then
         echo "User selected Yes, exit status was $?."
@@ -9,7 +10,7 @@ UNMOUNT() {
     fi
 }
 BACKUP() {
-    sudo dd if=/dev/"${SD_DEVICE}" of="$BACKUP_DIR/$PWNAGOTCHI_HOSTNAME-$PWNAGOTCHI_VERSION-$(date '+%F-%T').img"
+    sudo dd if=/dev/"${SD_DEVICE}" of="$BACKUP_DIR/${BACKUP_NAME}.img"
 }
 
 mkdir ./Scripts/Local/PiShrink
@@ -27,7 +28,7 @@ else
     exit
 fi
 
-BACKUP_NAME=$(whiptail --inputbox "What is the Backup dir?" $LINES $COLUMNS "${BACKUP_NAME}" --title "Backup dir." 3>&1 1>&2 2>&3)
+BACKUP_NAME=$(whiptail --inputbox "What is the Backup dir?" $LINES $COLUMNS "${BACKUP_NAME}" --title "Backup name." 3>&1 1>&2 2>&3)
 exitstatus=$?
 if [ $exitstatus = 0 ]; then
     echo "User selected Ok and entered $BACKUP_NAME"
@@ -42,7 +43,7 @@ df -h /dev/mmc* >/tmp/mmclist.txt
 whiptail --title "Example Dialog" --textbox /tmp/dflist.txt $LINES $COLUMNS
 whiptail --title "Example Dialog" --textbox /tmp/mmclist.txt $LINES $COLUMNS
 
-SD_DEVICE=$(whiptail --inputbox "What is the Sd card?" $LINES $COLUMNS "${SD_DEVICE}" --title "Backup dir." 3>&1 1>&2 2>&3)
+SD_DEVICE=$(whiptail --inputbox "What is the Sd card?" $LINES $COLUMNS "${SD_DEVICE}" --title "Sd Card." 3>&1 1>&2 2>&3)
 exitstatus=$?
 if [ $exitstatus = 0 ]; then
     echo "User selected Ok and entered $SD_DEVICE"
