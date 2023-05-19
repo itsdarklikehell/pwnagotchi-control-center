@@ -8,5 +8,6 @@ export BOOT_MOUNT_DIR="/media/usb1" # can be found via df -h /dev/sd*
 #Remote Setings
 export PWNAGOTCHI_USERNAME="pi"
 export PWNAGOTCHI_HOSTNAME="wifikirby"
+export PWNAGOTCHI_BTIP="10.0.0.2"
 export PWNAGOTCHI_USBIP="10.0.0.2"
 export PWNAGOTCHI_ETHIP="192.168.1.6"
