@@ -7,6 +7,13 @@ option=$(
         "Modify Config" "Modify an config.toml." \
         3>&1 1>&2 2>&3
 )
+exitstatus=$?
+
+if [ $exitstatus = 0 ]; then
+    echo "User selected Ok and entered " $option
+else
+    echo "User selected Cancel."
+fi
 
 if [ "$option" == "Download Image" ]; then
     cd "${DOWNLOAD_DIR}" || exit
