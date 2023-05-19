@@ -1,5 +1,13 @@
 #!/bin/bash
-
+UNMOUNT() {
+    if (whiptail --title "Are you sure you want to unmount ${SD_DEVICE}?" --yesno "Last check." $LINES $COLUMNS); then
+        echo "User selected Yes, exit status was $?."
+        sudo umount /dev/"${SD_DEVICE}"
+    else
+        echo "User selected No, exit status was $?."
+        exit
+    fi
+}
 mkdir ./Scripts/Local/PiShrink
 cd ./Scripts/Local/PiShrink || exit
 wget https://raw.githubusercontent.com/Drewsif/PiShrink/master/pishrink.sh
