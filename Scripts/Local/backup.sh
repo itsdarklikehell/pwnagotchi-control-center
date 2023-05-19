@@ -1,15 +1,30 @@
 #!/bin/bash
+
+wget https://raw.githubusercontent.com/Drewsif/PiShrink/master/pishrink.sh
+chmod +x pishrink.sh
+sudo mv pishrink.sh /usr/local/bin
+
 BACKUP_DIR=$(whiptail --inputbox "What is the Backup dir?" $LINES $COLUMNS "${BACKUP_DIR}" --title "Backup dir." 3>&1 1>&2 2>&3)
 exitstatus=$?
 if [ $exitstatus = 0 ]; then
     echo "User selected Ok and entered $BACKUP_DIR"
 else
     echo "User selected Cancel."
+    exit
 fi
 
-df -h >/tmp/dflist.txt
+df -h /dev/sd* >/tmp/dflist.txt
 
 whiptail --title "Example Dialog" --textbox /tmp/dflist.txt $LINES $COLUMNS
+
+SD_DEVICE=$(whiptail --inputbox "What is the Sd card?" $LINES $COLUMNS "${SD_DEVICE}" --title "Backup dir." 3>&1 1>&2 2>&3)
+exitstatus=$?
+if [ $exitstatus = 0 ]; then
+    echo "User selected Ok and entered $SD_DEVICE"
+else
+    echo "User selected Cancel."
+    exit
+fi
 
 cd "${BACKUP_DIR}" || exit
 
