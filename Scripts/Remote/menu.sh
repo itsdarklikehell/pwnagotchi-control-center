@@ -4,6 +4,7 @@ option=$(
         "Setup usb-ethernet connection" "Setup a usb-ethernet connection share with a pwnagotchi." \
         "Setup bluetooth-pan connection" "Setup a bluetooth-pan connection share with a pwnagotchi." \
         "Setup ethernet connection" "Setup a ethernet connection share with a pwnagotchi." \
+        "Setup wlan-ap connection" "Setup a wlan-ap connection share with a pwnagotchi." \
         "Remotely Modify Config" "Modify a remote config.toml." \
         "Reboot pwnagotchi" "Reboot a remote pwnagotchi." \
         3>&1 1>&2 2>&3
@@ -29,6 +30,11 @@ fi
 if [ "$option" == "Setup ethernet connection" ]; then
     export CONNECTION="ETH"
     ./Scripts/Remote/setup-connshare-eth.sh
+fi
+
+if [ "$option" == "Setup wlan-ap connection" ]; then
+    export CONNECTION="ETH"
+    ./Scripts/Remote/setup-connshare-wlan.sh
 fi
 
 if [ "$option" == "Reboot pwnagotchi" ]; then
