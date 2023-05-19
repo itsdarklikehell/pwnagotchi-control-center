@@ -1,0 +1,4 @@
+#!/bin/bash
+export DOWNLOAD_DIR=~/Downloads
+export PWNAGOTCHI_VERSION="v1.5.5"
+export SD_DEVICE="/dev/sdb"
