@@ -1,5 +1,19 @@
 #!/bin/bash
-
+MOUNT() {
+    cd "${BACKUP_DIR}" || exit
+    if [ -z "$SD_DEVICE" ]; then
+        echo "$SD_DEVICE Variable is not set, make sure the corect value is set in .config/config..."
+        exit
+    else
+        if (whiptail --title "Are you sure you want to mount $SD_DEVICE?" --yesno "Unmount check." $LINES $COLUMNS); then
+            echo "User selected Yes, exit status was $?."
+            sudo mount -a
+        else
+            echo "User selected No, exit status was $?."
+            exit
+        fi
+    fi
+}
 BACKUP_DIR=$(whiptail --inputbox "What is the Backup dir?" $LINES $COLUMNS "$BACKUP_DIR" --title "Backup dir." 3>&1 1>&2 2>&3)
 exitstatus=$?
 if [ $exitstatus = 0 ]; then
