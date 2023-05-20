@@ -1,6 +1,4 @@
 #!/bin/bash
-BACKUP_NAME=$PWNAGOTCHI_HOSTNAME-$PWNAGOTCHI_VERSION-$(date '+%F-%T')
-
 BACKUP() {
     if [ -z "$SD_DEVICE" ]; then
         echo "$SD_DEVICE Variable is not set, make sure the corect value is set in .config/config..."
@@ -14,10 +12,10 @@ BACKUP() {
 SHRINK() {
     mkdir ./Scripts/Local/PiShrink
     cd ./Scripts/Local/PiShrink || exit
-    wget https://raw.githubusercontent.com/Drewsif/PiShrink/master/pishrink.sh
+    wget -C https://raw.githubusercontent.com/Drewsif/PiShrink/master/pishrink.sh
     chmod +x pishrink.sh
     sudo cp pishrink.sh /usr/local/bin
-    sudo pishrink.sh -ad "$BACKUP_DIR/$BACKUP_NAME.img" "$BACKUP_NAME-shrunk.img"
+    sudo pishrink.sh -ad "$BACKUP_DIR/$BACKUP_NAME.img" "$BACKUP_DIR/$BACKUP_NAME-shrunk.img" && rm "$BACKUP_DIR/$BACKUP_NAME.img"
 }
 UNMOUNT() {
     if [ -z "$SD_DEVICE" ]; then
