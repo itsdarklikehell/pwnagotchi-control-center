@@ -6,7 +6,6 @@ option=$(
         "Setup ethernet connection" "Setup a ethernet connection share with a pwnagotchi." \
         "Setup wlan-ap connection" "Setup a wlan-ap connection share with a pwnagotchi." \
         "Modify Config" "Modify a remote config.toml." \
-        "install a plugin" "Modify a remote config.toml." \
         "Reboot pwnagotchi" "Reboot a remote pwnagotchi." \
         3>&1 1>&2 2>&3
 )
@@ -19,33 +18,25 @@ else
 fi
 
 if [ "$option" == "Setup usb-ethernet connection" ]; then
-    export CONNECTION="USB"
-    ./Scripts/Remote/setup-connshare-usb.sh
+    ./Scripts/Remote/setup-conn-usb.sh
 fi
 
 if [ "$option" == "Setup bluetooth-pan connection" ]; then
-    export CONNECTION="BT"
-    ./Scripts/Remote/setup-connshare-bt.sh
+    ./Scripts/Remote/setup-conn-bt.sh
 fi
 
 if [ "$option" == "Setup ethernet connection" ]; then
-    export CONNECTION="ETH"
-    ./Scripts/Remote/setup-connshare-eth.sh
+    ./Scripts/Remote/setup-conn-eth.sh
 fi
 
 if [ "$option" == "Setup wlan-ap connection" ]; then
-    export CONNECTION="ETH"
-    ./Scripts/Remote/setup-connshare-wlan.sh
+    ./Scripts/Remote/setup-conn-wlan.sh
 fi
 
 if [ "$option" == "Reboot pwnagotchi" ]; then
-    if [ "$CONNECTION" == "BT" ]; then
-        ssh "$PWNAGOTCHI_USERNAME"@"$PWNAGOTCHI_BTIP" "sudo reboot now"
-    fi
-    if [ "$CONNECTION" == "USB" ]; then
-        ssh "$PWNAGOTCHI_USERNAME"@"$PWNAGOTCHI_USBIP" "sudo reboot now"
-    fi
-    if [ "$CONNECTION" == "ETH" ]; then
-        ssh "$PWNAGOTCHI_USERNAME"@"$PWNAGOTCHI_ETHIP" "sudo reboot now"
-    fi
+    ./Scripts/Remote/reboot.sh
+fi
+
+if [ "$option" == "Modify Config" ]; then
+    ./Scripts/Remote/modconf.sh
 fi

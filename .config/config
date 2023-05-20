@@ -1,6 +1,5 @@
 #!/bin/bash
 #Local Setings
-export DOWNLOAD_DIR=~/Downloads
 export BACKUP_DIR=$PWD/Backups
 export BACKUP_NAME=$PWNAGOTCHI_HOSTNAME-$PWNAGOTCHI_VERSION-$(date '+%F-%T')
 export PWNAGOTCHI_VERSION="v1.5.5"
@@ -17,3 +16,4 @@ export UPSTREAM_IFACE="enp0s25"
 export PWNAGOTCHI_BTIP="10.0.0.2"
 export PWNAGOTCHI_USBIP="10.0.0.2"
 export PWNAGOTCHI_ETHIP="192.168.1.6"
+export PWNAGOTCHI_WLANIP="192.168.1.6"
