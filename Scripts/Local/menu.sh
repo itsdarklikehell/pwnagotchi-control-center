@@ -4,6 +4,7 @@ option=$(
         "Download Image" "Download the pwnagotchi image." \
         "Flash Sd" "Flash or restore a pwnagotchi image or zip file to an Sd Card." \
         "Backup Sd" "Backup an sd card to a flashable image or zip file." \
+        "Pull Files" "Extract/copy files from the Sd Card." \
         "Modify Config" "Modify an config.toml and store it on te /boot partiton of the Sd Card." \
         3>&1 1>&2 2>&3
 )
@@ -29,4 +30,8 @@ fi
 
 if [ "$option" == "Modify Config" ]; then
     ./Scripts/Local/modconf.sh
+fi
+
+if [ "$option" == "Pull Files" ]; then
+    ./Scripts/Local/pull-files.sh
 fi
