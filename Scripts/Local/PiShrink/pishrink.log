@@ -1,0 +1,90 @@
+pishrink.sh v0.1.3
+pishrink.sh: Copying /home/rizzo/pwnagotchi-control-center/Backups/wifikirby-v1.5.5-2023-05-20-00:43:27.img to wifikirby-v1.5.5-2023-05-20-00:43:27-shrunk.img... ...
+pishrink.sh: Gathering data ...
+Line 307
+beforesize: 30G
+parted_output: BYT;
+/home/rizzo/pwnagotchi-control-center/Scripts/Local/PiShrink/wifikirby-v1.5.5-2023-05-20-00\:43\:27-shrunk.img:31482445824B:file:512:512:msdos::;
+1:4194304B:272630271B:268435968B:fat32::lba;
+2:276824064B:31482445823B:31205621760B:ext4::;
+partnum: 2
+partstart: 276824064
+parttype: primary
+tune2fs_output: tune2fs 1.47.0 (5-Feb-2023)
+Filesystem volume name:   rootfs
+Last mounted on:          /media/rizzo/rootfs
+Filesystem UUID:          8d008fde-f12a-47f7-8519-197ea707d3d4
+Filesystem magic number:  0xEF53
+Filesystem revision #:    1 (dynamic)
+Filesystem features:      has_journal ext_attr resize_inode dir_index filetype needs_recovery extent flex_bg sparse_super large_file dir_nlink extra_isize
+Filesystem flags:         unsigned_directory_hash 
+Default mount options:    user_xattr acl
+Filesystem state:         clean
+Errors behavior:          Continue
+Filesystem OS type:       Linux
+Inode count:              1822992
+Block count:              7618560
+Reserved block count:     316387
+Overhead clusters:        123871
+Free blocks:              5489135
+Free inodes:              1656900
+First block:              0
+Block size:               4096
+Fragment size:            4096
+Reserved GDT blocks:      113
+Blocks per group:         32768
+Fragments per group:      32768
+Inodes per group:         7824
+Inode blocks per group:   489
+Flex block group size:    16
+Filesystem created:       Wed Jul 10 02:20:54 2019
+Last mount time:          Sat May 20 00:41:56 2023
+Last write time:          Sat May 20 00:41:56 2023
+Mount count:              55
+Maximum mount count:      -1
+Last checked:             Sun May 14 22:50:27 2023
+Check interval:           0 (<none>)
+Lifetime writes:          22 GB
+Reserved blocks uid:      0 (user root)
+Reserved blocks gid:      0 (group root)
+First inode:              11
+Inode size:	          256
+Required extra isize:     32
+Desired extra isize:      32
+Journal inode:            8
+Default directory hash:   half_md4
+Directory Hash Seed:      70b8a693-a278-4e63-bd70-ab62ce77124a
+Journal backup:           inode blocks
+currentsize: 7618560
+blocksize: 4096
+Creating new /etc/rc.local
+pishrink.sh: Checking filesystem ...
+rootfs: 166093/1822992 files (0.2% non-contiguous), 2129426/7618560 blocks
+resize2fs 1.47.0 (5-Feb-2023)
+Line 327
+currentsize: 7618560
+minsize: 2379252
+Line 335
+extra_space: 5239308
+Line 342
+minsize: 2384252
+pishrink.sh: Shrinking filesystem ...
+resize2fs 1.47.0 (5-Feb-2023)
+Resizing the filesystem on /dev/loop37 to 2384252 (4k) blocks.
+Begin pass 2 (max = 37964)
+Relocating blocks             ----------------------------------------XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+Begin pass 3 (max = 233)
+Scanning inode table          ----------------------------------------XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+Begin pass 4 (max = 23919)
+Updating inode references     ----------------------------------------XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+The filesystem on /dev/loop37 is now 2384252 (4k) blocks long.
+
+Line 361
+partnewsize: 9765896192
+newpartend: 10042720256
+pishrink.sh: Shrinking image ...
+Line 386
+endresult: 10042720768
+Line 423
+aftersize: 9.4G
+pishrink.sh: Shrunk wifikirby-v1.5.5-2023-05-20-00:43:27-shrunk.img from 30G to 9.4G ...
