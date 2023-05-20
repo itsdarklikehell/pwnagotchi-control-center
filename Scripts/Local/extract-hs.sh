@@ -27,6 +27,7 @@ fi
 sudo apt install hwinfo
 grep -Ff <(hwinfo --disk --short) <(hwinfo --usb --short) >/tmp/usblist.txt
 whiptail --title "Usb List." --textbox /tmp/usblist.txt $LINES $COLUMNS
+
 SD_DEVICE=$(whiptail --inputbox "What is the Sd card to flash to?" $LINES $COLUMNS "${SD_DEVICE}" --title "Sd Card." 3>&1 1>&2 2>&3)
 exitstatus=$?
 if [ $exitstatus = 0 ]; then
