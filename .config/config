@@ -1,7 +1,8 @@
 #!/bin/bash
 #Local Setings
 export BACKUP_DIR=$PWD/Backups
-export BACKUP_NAME=$PWNAGOTCHI_HOSTNAME-$PWNAGOTCHI_VERSION-$(date '+%F-%T')
+BACKUP_NAME="$PWNAGOTCHI_HOSTNAME-$PWNAGOTCHI_VERSION-$(date '+%F-%T')"
+export BACKUP_NAME
 export PWNAGOTCHI_VERSION="v1.5.5"
 export SD_DEVICE="/dev/sdc"         # can be found via df -h /dev/sd*
 export ROOT_MOUNT_DIR="/media/usb0" # can be found via df -h /dev/sd*
