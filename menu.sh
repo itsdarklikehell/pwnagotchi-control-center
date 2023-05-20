@@ -31,5 +31,5 @@ if [ "$option" == "Remote Stuff" ]; then
 fi
 
 if [ "$option" == "Update" ]; then
-    git pull origin master
+    git pull origin main
 fi
