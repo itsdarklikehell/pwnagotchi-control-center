@@ -5,7 +5,8 @@ option=$(
         "Setup bluetooth-pan connection" "Setup a bluetooth-pan connection share with a pwnagotchi." \
         "Setup ethernet connection" "Setup a ethernet connection share with a pwnagotchi." \
         "Setup wlan-ap connection" "Setup a wlan-ap connection share with a pwnagotchi." \
-        "Modify Config" "Modify a remote config.toml." \
+        "Modify Pwnagotchi Config" "Modify a remote config.toml." \
+        "Modify Plugin Config" "Modify a remote pluginname.toml." \
         "Reboot pwnagotchi" "Reboot a remote pwnagotchi." \
         3>&1 1>&2 2>&3
 )
@@ -37,6 +38,10 @@ if [ "$option" == "Reboot pwnagotchi" ]; then
     ./Scripts/Remote/reboot.sh
 fi
 
-if [ "$option" == "Modify Config" ]; then
-    ./Scripts/Remote/modconf.sh
+if [ "$option" == "Modify Pwnagotchi Config" ]; then
+    ./Scripts/Remote/mod-pwnagotchi-conf.sh
+fi
+
+if [ "$option" == "Modify Plugin Config" ]; then
+    ./Scripts/Remote/mod-plugin-conf.sh
 fi
