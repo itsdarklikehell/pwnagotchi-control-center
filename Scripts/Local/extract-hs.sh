@@ -14,6 +14,7 @@ MOUNT() {
         fi
     fi
 }
+
 BACKUP_DIR=$(whiptail --inputbox "What is the Backup dir?" $LINES $COLUMNS "$BACKUP_DIR" --title "Backup dir." 3>&1 1>&2 2>&3)
 exitstatus=$?
 if [ $exitstatus = 0 ]; then
