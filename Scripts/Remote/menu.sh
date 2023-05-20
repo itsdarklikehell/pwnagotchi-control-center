@@ -7,9 +7,11 @@ option=$(
         "Setup wlan-ap connection" "Setup a wlan-ap connection share with a pwnagotchi." \
         "Modify Pwnagotchi Config" "Modify a remote config.toml." \
         "Modify Plugin Config" "Modify a remote pluginname.toml." \
+        "Install SecLists" "Install SecLists wordlists." \
         "Install Plugin" "Install a remote plugin." \
         "Enable Plugin" "Enable a remote plugin." \
         "Disable Plugin" "Disable a remote plugin." \
+        "Update pwnagotchi" "Update the pwnagotchi." \
         "Reboot pwnagotchi" "Reboot a remote pwnagotchi." \
         3>&1 1>&2 2>&3
 )
@@ -47,6 +49,10 @@ fi
 
 if [ "$option" == "Modify Plugin Config" ]; then
     ./Scripts/Remote/mod-plugin-conf.sh
+fi
+
+if [ "$option" == "Install SecLists" ]; then
+    ./Scripts/Remote/install-seclist.sh
 fi
 
 if [ "$option" == "Install Plugin" ]; then
