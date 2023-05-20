@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-USB_IFACE=$(whiptail --inputbox "What is the USB-ethernet Interface name?" $LINES $COLUMNS "${USB_IFACE}" --title "Interface name" 3>&1 1>&2 2>&3)
+USB_IFACE=$(whiptail --inputbox "What is the USB-ethernet Interface name?" $LINES $COLUMNS "$USB_IFACE" --title "Interface name" 3>&1 1>&2 2>&3)
 exitstatus=$?
 if [ $exitstatus = 0 ]; then
     echo "User selected Ok and entered $USB_IFACE"
@@ -9,9 +9,9 @@ else
     echo "User selected Cancel."
 fi
 
-if [ $'(cat /sys/class/net/${USB_IFACE}/operstate)' == "up" ]; then
+if [ "$(cat /sys/class/net/"$USB_IFACE"/operstate)" == "up" ]; then
 
-    UPSTREAM_IFACE=$(whiptail --inputbox "What is the Upstream Interface name?" $LINES $COLUMNS "${UPSTREAM_IFACE}" --title "Interface name" 3>&1 1>&2 2>&3)
+    UPSTREAM_IFACE=$(whiptail --inputbox "What is the Upstream Interface name?" $LINES $COLUMNS "$UPSTREAM_IFACE" --title "Interface name" 3>&1 1>&2 2>&3)
     exitstatus=$?
     if [ $exitstatus = 0 ]; then
         echo "User selected Ok and entered $UPSTREAM_IFACE"
@@ -43,5 +43,5 @@ if [ $'(cat /sys/class/net/${USB_IFACE}/operstate)' == "up" ]; then
     ssh "pi@10.0.0.2" "ping 1.1.1.1"
     export CURR_CONN="USB"
 else
-    echo "${USB_IFACE} seem to be: $(cat /sys/class/net/"${USB_IFACE}"/operstate)"
+    echo "$USB_IFACE seem to be: $(cat "/sys/class/net/$USB_IFACE/operstate")"
 fi

@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-BT_IFACE=$(whiptail --inputbox "What is the BT-ethernet Interface name?" $LINES $COLUMNS "${BT_IFACE}" --title "Interface name" 3>&1 1>&2 2>&3)
+BT_IFACE=$(whiptail --inputbox "What is the BT-ethernet Interface name?" $LINES $COLUMNS "$BT_IFACE" --title "Interface name" 3>&1 1>&2 2>&3)
 exitstatus=$?
 if [ $exitstatus = 0 ]; then
     echo "User selected Ok and entered $BT_IFACE"
@@ -9,34 +9,38 @@ else
     echo "User selected Cancel."
 fi
 
-UPSTREAM_IFACE=$(whiptail --inputbox "What is the Upstream Interface name?" $LINES $COLUMNS "${UPSTREAM_IFACE}" --title "Interface name" 3>&1 1>&2 2>&3)
-exitstatus=$?
-if [ $exitstatus = 0 ]; then
-    echo "User selected Ok and entered $UPSTREAM_IFACE"
-    #UPSTREAM_IFACE="2:-${UPSTREAM_IFACE}"
+if [ "$(cat /sys/class/net/"$BT_IFACE"/operstate)" == "up" ]; then
+    UPSTREAM_IFACE=$(whiptail --inputbox "What is the Upstream Interface name?" $LINES $COLUMNS "$UPSTREAM_IFACE" --title "Interface name" 3>&1 1>&2 2>&3)
+    exitstatus=$?
+    if [ $exitstatus = 0 ]; then
+        echo "User selected Ok and entered $UPSTREAM_IFACE"
+        #UPSTREAM_IFACE="2:-${UPSTREAM_IFACE}"
+    else
+        echo "User selected Cancel."
+    fi
+
+    echo "(Exit status was $exitstatus)"
+    # name of the ethernet gadget interface on the host
+    BT_IFACE=${1:-$BT_IFACE}
+    BT_IFACE_IP="10.0.0.1"
+    BT_IFACE_NET="10.0.0.0/24"
+    # host interface to use for upstream connection
+    UPSTREAM_IFACE=${2:-$UPSTREAM_IFACE}
+
+    sudo ip addr add "$BT_IFACE_IP/24" dev "$BT_IFACE"
+    sudo ip link set "$BT_IFACE" up
+
+    sudo iptables -A FORWARD -o "$UPSTREAM_IFACE" -i "$BT_IFACE" -s "$BT_IFACE_NET" -m conntrack --ctstate NEW -j ACCEPT
+    sudo iptables -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+    sudo iptables -t nat -F POSTROUTING
+    sudo iptables -t nat -A POSTROUTING -o "$UPSTREAM_IFACE" -j MASQUERADE
+
+    if [ "$(cat /proc/sys/net/ipv4/ip_forward)" != "1" ]; then
+        echo 1 | sudo tee -a /proc/sys/net/ipv4/ip_forward
+    fi
+
+    ssh "pi@10.0.0.2" "ping 1.1.1.1"
+    export CURR_CONN="BT"
 else
-    echo "User selected Cancel."
+    echo "$BT_IFACE seem to be: $(cat "/sys/class/net/$BT_IFACE/operstate")"
 fi
-
-echo "(Exit status was $exitstatus)"
-# name of the ethernet gadget interface on the host
-BT_IFACE=${1:-$BT_IFACE}
-BT_IFACE_IP="10.0.0.1"
-BT_IFACE_NET="10.0.0.0/24"
-# host interface to use for upstream connection
-UPSTREAM_IFACE=${2:-$UPSTREAM_IFACE}
-
-sudo ip addr add "$BT_IFACE_IP/24" dev "$BT_IFACE"
-sudo ip link set "$BT_IFACE" up
-
-sudo iptables -A FORWARD -o "$UPSTREAM_IFACE" -i "$BT_IFACE" -s "$BT_IFACE_NET" -m conntrack --ctstate NEW -j ACCEPT
-sudo iptables -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
-sudo iptables -t nat -F POSTROUTING
-sudo iptables -t nat -A POSTROUTING -o "$UPSTREAM_IFACE" -j MASQUERADE
-
-if [ "$(cat /proc/sys/net/ipv4/ip_forward)" != "1" ]; then
-    echo 1 | sudo tee -a /proc/sys/net/ipv4/ip_forward
-fi
-
-ssh "pi@10.0.0.2" "ping 1.1.1.1"
-export CURR_CONN="BT"

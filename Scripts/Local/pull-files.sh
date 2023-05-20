@@ -1,6 +1,6 @@
 #!/bin/bash
 MOUNT() {
-    cd "${BACKUP_DIR}" || exit
+    cd "$BACKUP_DIR" || exit
     if [ -z "$SD_DEVICE" ]; then
         echo "$SD_DEVICE Variable is not set, make sure the corect value is set in .config/config..."
         exit
@@ -32,7 +32,7 @@ grep -Ff <(hwinfo --disk --short) <(hwinfo --usb --short) >/tmp/usblist.txt
 whiptail --title "Usb List." --textbox /tmp/usblist.txt $LINES $COLUMNS
 
 SD_DEVICE=$(
-    whiptail --inputbox "What is the Sd card to copy to?" $LINES $COLUMNS "${SD_DEVICE}" --title "Sd Card." \
+    whiptail --inputbox "What is the Sd card to copy to?" $LINES $COLUMNS "$SD_DEVICE" --title "Sd Card." \
         3>&1 1>&2 2>&3
 )
 exitstatus=$?

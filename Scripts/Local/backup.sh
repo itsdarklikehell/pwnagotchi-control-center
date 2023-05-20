@@ -4,8 +4,8 @@ BACKUP() {
         echo "$SD_DEVICE Variable is not set, make sure the corect value is set in .config/config..."
         exit
     else
-        echo "Creating backup of $SD_DEVICE in $BACKUP_DIR/$BACKUP_NAME.img"
-        sudo dd if="$SD_DEVICE" of="$BACKUP_DIR/$BACKUP_NAME.img" bs=1M status=progress
+        echo "Creating backup of $SD_DEVICE in $BACKUP_DIR/Images/$BACKUP_NAME.img"
+        sudo dd if="$SD_DEVICE" of="$BACKUP_DIR/Images/$BACKUP_NAME.img" bs=1M status=progress
         sync
     fi
 }
@@ -15,7 +15,7 @@ SHRINK() {
     wget -C https://raw.githubusercontent.com/Drewsif/PiShrink/master/pishrink.sh
     chmod +x pishrink.sh
     sudo cp pishrink.sh /usr/local/bin
-    sudo pishrink.sh -ad "$BACKUP_DIR/$BACKUP_NAME.img" "$BACKUP_DIR/$BACKUP_NAME-shrunk.img" && rm "$BACKUP_DIR/$BACKUP_NAME.img"
+    sudo pishrink.sh -ad "$BACKUP_DIR/Images/$BACKUP_NAME.img" "$BACKUP_DIR/Images/$BACKUP_NAME-shrunk.img" && rm "$BACKUP_DIR/Images/$BACKUP_NAME.img"
 }
 UNMOUNT() {
     if [ -z "$SD_DEVICE" ]; then
@@ -32,7 +32,7 @@ UNMOUNT() {
     fi
 }
 
-BACKUP_DIR=$(whiptail --inputbox "What is the Backup dir?" $LINES $COLUMNS "${BACKUP_DIR}" --title "Backup dir." 3>&1 1>&2 2>&3)
+BACKUP_DIR=$(whiptail --inputbox "What is the Backup dir?" $LINES $COLUMNS "$BACKUP_DIR/Images" --title "Backup dir." 3>&1 1>&2 2>&3)
 exitstatus=$?
 if [ $exitstatus = 0 ]; then
     echo "User selected Ok and entered $BACKUP_DIR"
@@ -41,7 +41,7 @@ else
     exit
 fi
 
-BACKUP_NAME=$(whiptail --inputbox "What is the Backup name?" $LINES $COLUMNS "${BACKUP_NAME}" --title "Backup name." 3>&1 1>&2 2>&3)
+BACKUP_NAME=$(whiptail --inputbox "What is the Backup name?" $LINES $COLUMNS "$BACKUP_NAME/Images" --title "Backup name." 3>&1 1>&2 2>&3)
 exitstatus=$?
 if [ $exitstatus = 0 ]; then
     echo "User selected Ok and entered $BACKUP_NAME"
@@ -71,5 +71,3 @@ else
     echo "User selected No, exit status was $?."
     exit
 fi
-
-cd "${BACKUP_DIR}" || exit
