@@ -1,6 +1,5 @@
 .vscode/
 *.img
-pwnagotchi-plugins-contrib/
 __pycache__
 .idea
 .DS_Store
