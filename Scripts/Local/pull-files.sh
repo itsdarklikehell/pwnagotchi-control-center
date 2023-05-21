@@ -14,7 +14,6 @@ MOUNT() {
         fi
     fi
 }
-test=/dev/null
 
 BACKUP_DIR=$(
     whiptail --inputbox "What is the Backup dir to copy to?" $LINES $COLUMNS "$BACKUP_DIR" --title "Backup dir." \
