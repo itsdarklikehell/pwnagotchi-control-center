@@ -36,7 +36,7 @@ class UPS:
             return chg
         except:
             return chg
-       
+
     def capacity(self):
         battery_level = 0
         # battery_v = self.voltage()

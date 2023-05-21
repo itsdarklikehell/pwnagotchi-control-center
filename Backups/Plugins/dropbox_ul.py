@@ -30,21 +30,21 @@ class dropbox(plugins.Plugin):
 	def _upload_to_dropbox(self, path, timeout=30):
 		"""
 		Uploads the file to dropbox
-		"""		
+		"""
 		head, tail = os.path.split(path)
 		destFile = self.options['path'] + '/' + tail
 		dbOpts = {'path': destFile, 'mode': 'add','autorename': True,'mute': False,'strict_conflict': False}
-		
+
 		headers = {
 			'Authorization': 'Bearer ' + self.options['app_token'],
 			'Dropbox-API-Arg': json.dumps(dbOpts),
 			'Content-Type': 'application/octet-stream',
 		}
-		data = open(path, 'rb').read()	
-					
+		data = open(path, 'rb').read()
+
 		try:
-			response = requests.post('https://content.dropboxapi.com/2/files/upload', headers=headers, data=data)                
-			logging.error(response)		
+			response = requests.post('https://content.dropboxapi.com/2/files/upload', headers=headers, data=data)
+			logging.error(response)
 		except requests.exceptions.RequestException as e:
 			logging.error(f"OHC: Got an exception while uploading {path} -> {e}")
 			raise e

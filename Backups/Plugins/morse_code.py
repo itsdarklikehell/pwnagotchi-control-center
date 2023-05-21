@@ -230,7 +230,7 @@ class MorseCode(plugins.Plugin):
     def on_bcap_ble_device_new(self, agent, event):
         self._queue_message("NEW BLE")
         pass
-    
+
     # called when a non overlapping wifi channel is found to be free
     def on_free_channel(self, agent, channel):
         pass
