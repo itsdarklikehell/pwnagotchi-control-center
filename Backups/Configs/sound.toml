@@ -1,4 +1,0 @@
-main.plugins.sound.enabled = true
-main.plugins.sound.sound-dir = "default"
-main.plugins.sound.text2speech-use = false
-main.plugins.sound.text2speech-lang = "en-US"

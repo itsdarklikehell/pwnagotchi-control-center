@@ -1,12 +1,21 @@
 {
-	"folders": [
-		{
-			"path": "."
-		}
-	],
-	"settings": {
-		"workbench.view.alwaysShowHeaderActions": true,
-		"editor.tabCompletion": "on",
-		"diffEditor.codeLens": true
-	}
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "workbench.view.alwaysShowHeaderActions": true,
+    "editor.tabCompletion": "on",
+    "diffEditor.codeLens": true,
+    "git.ignoreLimitWarning": true,
+    "files.watcherExclude": {
+      "**/.git/**": true,
+      "**/.DS_Store": true,
+      "**/.fingerprints.txt": true,
+      "tsconfig.json": true,
+      "**/.vscode/**": true
+    },
+    "search.useIgnoreFiles": false
+  }
 }
