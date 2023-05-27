@@ -19,6 +19,9 @@
     "search.useIgnoreFiles": false,
     "search.exclude": {
       "**/gen/cache/**": true
+    },
+    "[python]": {
+      "editor.defaultFormatter": "Jota0222.multi-formatter"
     }
   }
 }
