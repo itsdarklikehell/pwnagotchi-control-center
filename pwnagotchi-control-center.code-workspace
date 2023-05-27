@@ -16,6 +16,9 @@
       "tsconfig.json": true,
       "**/.vscode/**": true
     },
-    "search.useIgnoreFiles": false
+    "search.useIgnoreFiles": false,
+    "search.exclude": {
+      "**/gen/cache/**": true
+    }
   }
 }
