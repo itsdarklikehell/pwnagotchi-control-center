@@ -23,6 +23,9 @@
     "[python]": {
       "editor.defaultFormatter": "Jota0222.multi-formatter"
     },
-    "wolf.disableHotModeWarning": true
+    "wolf.disableHotModeWarning": true,
+    "[arduino-output]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
   }
 }
