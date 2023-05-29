@@ -26,6 +26,9 @@
     "wolf.disableHotModeWarning": true,
     "[arduino-output]": {
       "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[html]": {
+      "editor.defaultFormatter": "Jota0222.multi-formatter"
     }
   }
 }
