@@ -29,6 +29,9 @@
     },
     "[html]": {
       "editor.defaultFormatter": "Jota0222.multi-formatter"
+    },
+    "[toml]": {
+      "editor.defaultFormatter": "be5invis.toml"
     }
   }
 }
