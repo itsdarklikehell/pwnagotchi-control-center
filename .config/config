@@ -1,5 +1,5 @@
 #!/bin/bash
-#Local Setings
+#Local Settings
 export BACKUP_DIR=$PWD/Backups
 BACKUP_NAME="$PWNAGOTCHI_HOSTNAME-$PWNAGOTCHI_VERSION-$(date '+%F-%T')"
 export BACKUP_NAME
@@ -7,7 +7,7 @@ export PWNAGOTCHI_VERSION="v1.5.5"
 export SD_DEVICE="/dev/sdc"         # can be found via df -h /dev/sd*
 export ROOT_MOUNT_DIR="/media/usb0" # can be found via df -h /dev/sd*
 export BOOT_MOUNT_DIR="/media/usb1" # can be found via df -h /dev/sd*
-#Remote Setings
+#Remote Settings
 export PWNAGOTCHI_USERNAME="pi"
 export PWNAGOTCHI_HOSTNAME="wifikirby"
 export ETH_IFACE="enp0s25"
