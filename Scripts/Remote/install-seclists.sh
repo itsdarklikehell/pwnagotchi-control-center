@@ -12,18 +12,18 @@ if [ -z "$CURR_CONN" ]; then
 else
     if [ "$CURR_CONN" == "BT" ]; then
         ssh "$PWNAGOTCHI_USERNAME"@"$PWNAGOTCHI_BTIP" "git clone https://github.com/danielmiessler/SecLists"
-        ssh "$PWNAGOTCHI_USERNAME"@"$PWNAGOTCHI_BTIP" "cd SecLists && ln -s Discovery discovery && ln -s Usernames usernames && ln -s ln -s Passwords passwords && ln -s Fuzzing fuzzing && ln -s ln -s Miscellaneous misc"
+        ssh "$PWNAGOTCHI_USERNAME"@"$PWNAGOTCHI_BTIP" "cd SecLists && ln -s Discovery discovery && ln -s Usernames usernames && ln -s Passwords passwords && ln -s Fuzzing fuzzing && ln -s Miscellaneous misc"
     fi
     if [ "$CURR_CONN" == "USB" ]; then
         ssh "$PWNAGOTCHI_USERNAME"@"$PWNAGOTCHI_USBIP" "git clone https://github.com/danielmiessler/SecLists"
-        ssh "$PWNAGOTCHI_USERNAME"@"$PWNAGOTCHI_USBIP" "cd SecLists && ln -s Discovery discovery && ln -s Usernames usernames && ln -s ln -s Passwords passwords && ln -s Fuzzing fuzzing && ln -s ln -s Miscellaneous misc"
+        ssh "$PWNAGOTCHI_USERNAME"@"$PWNAGOTCHI_USBIP" "cd SecLists && ln -s Discovery discovery && ln -s Usernames usernames && ln -s Passwords passwords && ln -s Fuzzing fuzzing && ln -s Miscellaneous misc"
     fi
     if [ "$CURR_CONN" == "ETH" ]; then
         ssh "$PWNAGOTCHI_USERNAME"@"$PWNAGOTCHI_ETHIP" "git clone https://github.com/danielmiessler/SecLists"
-        ssh "$PWNAGOTCHI_USERNAME"@"$PWNAGOTCHI_ETHIP" "cd SecLists && ln -s Discovery discovery && ln -s Usernames usernames && ln -s ln -s Passwords passwords && ln -s Fuzzing fuzzing && ln -s ln -s Miscellaneous misc"
+        ssh "$PWNAGOTCHI_USERNAME"@"$PWNAGOTCHI_ETHIP" "cd SecLists && ln -s Discovery discovery && ln -s Usernames usernames && ln -s Passwords passwords && ln -s Fuzzing fuzzing && ln -s Miscellaneous misc"
     fi
     if [ "$CURR_CONN" == "WLAN" ]; then
         ssh "$PWNAGOTCHI_USERNAME"@"$PWNAGOTCHI_WLANIP" "git clone https://github.com/danielmiessler/SecLists"
-        ssh "$PWNAGOTCHI_USERNAME"@"$PWNAGOTCHI_WLANIP" "cd SecLists && ln -s Discovery discovery && ln -s Usernames usernames && ln -s ln -s Passwords passwords && ln -s Fuzzing fuzzing && ln -s ln -s Miscellaneous misc"
+        ssh "$PWNAGOTCHI_USERNAME"@"$PWNAGOTCHI_WLANIP" "cd SecLists && ln -s Discovery discovery && ln -s Usernames usernames && ln -s Passwords passwords && ln -s Fuzzing fuzzing && ln -s Miscellaneous misc"
     fi
 fi
