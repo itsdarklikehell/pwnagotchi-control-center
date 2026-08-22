@@ -27,7 +27,8 @@ function cleanup() {
 		losetup -d "$loopback"
 	fi
 	if [ "$debug" = true ]; then
-		local old_owner=$(stat -c %u:%g "$src")
+		local old_owner
+		old_owner=$(stat -c %u:%g "$src")
 		chown "$old_owner" "$LOGFILE"
 	fi
 
