@@ -46,6 +46,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add gource.mp4 || true
+          cp output.mp4 gource.mp4
+          git add gource.mp4
           git diff --staged --quiet || git commit -m "ci: update gource visualization (automated)"
           git push
