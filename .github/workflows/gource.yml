@@ -35,7 +35,7 @@ jobs:
             -sws_flags lanczos -c:a libfdk_aac -vbr 5 output.mp4
 
       - name: Upload Gource video
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: gource-visualization
           path: output.mp4
