@@ -21,6 +21,10 @@ jobs:
 
       - name: Generate Gource video
         run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
           gource --max-files 1000 --key -800x600 \
             --highlight-users --filename-time 3 --output-framerate 25 \
             -s 0.6 --multi-sampling --auto-skip-seconds 0.1 \
@@ -46,6 +50,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
           cp output.mp4 gource.mp4
           git add gource.mp4
           git diff --staged --quiet || git commit -m "ci: update gource visualization (automated)"
