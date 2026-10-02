@@ -12,7 +12,7 @@ BACKUP() {
 SHRINK() {
     mkdir ./Scripts/Local/PiShrink
     cd ./Scripts/Local/PiShrink || exit
-    wget -C https://raw.githubusercontent.com/Drewsif/PiShrink/master/pishrink.sh
+    wget -c https://raw.githubusercontent.com/Drewsif/PiShrink/master/pishrink.sh
     chmod +x pishrink.sh
     sudo cp pishrink.sh /usr/local/bin
     sudo pishrink.sh -ad "$BACKUP_DIR/Images/$BACKUP_NAME.img" "$BACKUP_DIR/Images/$BACKUP_NAME-shrunk.img" && rm "$BACKUP_DIR/Images/$BACKUP_NAME.img"

@@ -79,9 +79,9 @@ fi
 
 if [[ "$FILES" =~ "Plugin Configs" ]]; then
     echo "Pushing plugin configs from $BACKUP_DIR/Plugins to $ROOT_MOUNT_DIR/$CUSTOM_PLUGIN_DIR."
-    cp "$BACKUP_DIR/Plugins" "$ROOT_MOUNT_DIR/$CUSTOM_PLUGIN_DIR/*.toml"
-    cp "$BACKUP_DIR/Plugins" "$ROOT_MOUNT_DIR/$CUSTOM_PLUGIN_DIR/*.yml"
-    cp "$BACKUP_DIR/Plugins" "$ROOT_MOUNT_DIR/$CUSTOM_PLUGIN_DIR/*.yaml"
+    cp "$BACKUP_DIR/Plugins"/*.toml "$ROOT_MOUNT_DIR/$CUSTOM_PLUGIN_DIR/"
+    cp "$BACKUP_DIR/Plugins"/*.yml "$ROOT_MOUNT_DIR/$CUSTOM_PLUGIN_DIR/"
+    cp "$BACKUP_DIR/Plugins"/*.yaml "$ROOT_MOUNT_DIR/$CUSTOM_PLUGIN_DIR/"
 fi
 
 if [[ "$FILES" =~ "User Bin" ]]; then

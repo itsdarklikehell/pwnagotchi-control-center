@@ -52,7 +52,7 @@ if [ "$option" == "Modify Plugin Config" ]; then
 fi
 
 if [ "$option" == "Install SecLists" ]; then
-    ./Scripts/Remote/install-seclist.sh
+    ./Scripts/Remote/install-seclists.sh
 fi
 
 if [ "$option" == "Install Plugin" ]; then
