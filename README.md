@@ -1,5 +1,11 @@
 # pwnagotchi-control-center
 
+
+[![CI](https://github.com/itsdarklikehell/pwnagotchi-control-center/actions/workflows/ci.yml/badge.svg)](https://github.com/itsdarklikehell/pwnagotchi-control-center/actions/workflows/ci.yml)
+[![License](https://img.shields.io/github/license/itsdarklikehell/pwnagotchi-control-center)](LICENSE)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
+
+
 A menu to control a pwnagotchi with various scripts to: i.e setup connections to control a remotely running pwnagotchi with ssh over usb/eth/bt-pan/wifi(ap) or locally by flashing, editing config.toml, applying plugins or backing up a pwnagotchi sd card to a flashable image or zip file.
 
 ## See: (references)
