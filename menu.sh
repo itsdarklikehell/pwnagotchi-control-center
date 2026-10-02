@@ -1,8 +1,9 @@
 #!/bin/bash
 
-eval "resize"
-#LINES="47"
-#COLUMNS="190"
+# Set terminal size for whiptail dialogs
+if command -v resize &>/dev/null; then
+    eval "$(resize)" 2>/dev/null || true
+fi
 export COLUMNS LINES
 # shellcheck source=/dev/null
 source .config/config

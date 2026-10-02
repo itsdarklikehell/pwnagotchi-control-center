@@ -2,7 +2,7 @@
 PLUGINNAME=$(whiptail --inputbox "What is the plugin name?" $LINES $COLUMNS "${PLUGINNAME}" --title "Plugin name" 3>&1 1>&2 2>&3)
 exitstatus=$?
 if [ $exitstatus = 0 ]; then
-    echo "User selected Ok and entered $BT_IFACE"
+    echo "User selected Ok and entered $PLUGINNAME"
 else
     echo "User selected Cancel."
 fi

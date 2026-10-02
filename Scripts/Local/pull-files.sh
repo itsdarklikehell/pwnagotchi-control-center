@@ -63,7 +63,7 @@ fi
 
 if [[ "$FILES" =~ "Handshakes" ]]; then
     if [ ! -d "$BACKUP_DIR/Handshakes" ]; then
-        mkdir -P "$BACKUP_DIR/Handshakes"
+        mkdir -p "$BACKUP_DIR/Handshakes"
     fi
     echo "Pulling handshakes from $ROOT_MOUNT_DIR/$HANDSHAKE_DIR to $BACKUP_DIR/Handshakes."
     cp "$ROOT_MOUNT_DIR/$HANDSHAKE_DIR/*" "$BACKUP_DIR/Handshakes"
@@ -71,7 +71,7 @@ fi
 
 if [[ "$FILES" =~ "Main Config" ]]; then
     if [ ! -d "$BACKUP_DIR/Configs" ]; then
-        mkdir -P "$BACKUP_DIR/Configs"
+        mkdir -p "$BACKUP_DIR/Configs"
     fi
     echo "Pulling main config.toml from $ROOT_MOUNT_DIR/etc/pwnagotchi/config.toml to $BACKUP_DIR/Configs/config.toml and /boot/config.toml."
     cp "$ROOT_MOUNT_DIR/etc/pwnagotchi/config.toml" "$BACKUP_DIR/Configs/config.toml"
@@ -80,7 +80,7 @@ fi
 
 if [[ "$FILES" =~ "Plugin Files" ]]; then
     if [ ! -d "$BACKUP_DIR/Plugins" ]; then
-        mkdir -P "$BACKUP_DIR/Plugins"
+        mkdir -p "$BACKUP_DIR/Plugins"
     fi
     echo "Pulling plugin files from $ROOT_MOUNT_DIR/$CUSTOM_PLUGIN_DIR to $BACKUP_DIR/Plugins."
     cp "$ROOT_MOUNT_DIR/$CUSTOM_PLUGIN_DIR/*" "$BACKUP_DIR/Plugins"
@@ -88,7 +88,7 @@ fi
 
 if [[ "$FILES" =~ "Plugin Configs" ]]; then
     if [ ! -d "$BACKUP_DIR/Plugins" ]; then
-        mkdir -P "$BACKUP_DIR/Plugins"
+        mkdir -p "$BACKUP_DIR/Plugins"
     fi
     echo "Pulling plugin configs from $ROOT_MOUNT_DIR/$CUSTOM_PLUGIN_DIR to $BACKUP_DIR/Plugins."
     cp "$ROOT_MOUNT_DIR/$CUSTOM_PLUGIN_DIR/*.toml" "$BACKUP_DIR/Plugins"

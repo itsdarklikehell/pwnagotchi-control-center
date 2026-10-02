@@ -11,7 +11,7 @@ option=$(
         "Install Plugin" "Install a remote plugin." \
         "Enable Plugin" "Enable a remote plugin." \
         "Disable Plugin" "Disable a remote plugin." \
-        "Update pwnagotchi" "Update the pwnagotchi." \
+        "Update pwnagotchi" "Update the pwnagotchi (placeholder)." \
         "Reboot pwnagotchi" "Reboot a remote pwnagotchi." \
         3>&1 1>&2 2>&3
 )
@@ -52,7 +52,7 @@ if [ "$option" == "Modify Plugin Config" ]; then
 fi
 
 if [ "$option" == "Install SecLists" ]; then
-    ./Scripts/Remote/install-seclist.sh
+    ./Scripts/Remote/install-seclists.sh
 fi
 
 if [ "$option" == "Install Plugin" ]; then
@@ -63,6 +63,6 @@ if [ "$option" == "Enable Plugin" ]; then
     ./Scripts/Remote/plugin-enable.sh
 fi
 
-if [ "$option" == "Disable Plugin Config" ]; then
+if [ "$option" == "Disable Plugin" ]; then
     ./Scripts/Remote/plugin-disable.sh
 fi

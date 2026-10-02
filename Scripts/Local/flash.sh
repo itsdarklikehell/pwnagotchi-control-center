@@ -26,7 +26,7 @@ FLASH() {
             echo "$BACKUP_NAME is not found."
             exit
         else
-            dd if="$BACKUP_NAME" of="$SD_DEVICE" bs=1M status=process
+            dd if="$BACKUP_NAME" of="$SD_DEVICE" bs=1M status=progress
             sync
         fi
     fi

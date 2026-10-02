@@ -1,25 +1,39 @@
 #!/bin/bash
 set -e
+
+# Validate interface exists
+validate_iface() {
+    local iface="$1"
+    if [ -z "$iface" ] || [ ! -d "/sys/class/net/$iface" ]; then
+        whiptail --msgbox "Interface '$iface' does not exist. Available interfaces: $(ls /sys/class/net/ | tr '\n' ' ')" 10 60
+        return 1
+    fi
+    return 0
+}
+
 BT_IFACE=$(whiptail --inputbox "What is the BT-ethernet Interface name?" $LINES $COLUMNS "$BT_IFACE" --title "Interface name" 3>&1 1>&2 2>&3)
 exitstatus=$?
 if [ $exitstatus = 0 ]; then
     echo "User selected Ok and entered $BT_IFACE"
-    #BT_IFACE="1:-${BT_IFACE}"
 else
     echo "User selected Cancel."
+    exit 0
 fi
+
+validate_iface "$BT_IFACE" || exit 1
 
 if [ "$(cat /sys/class/net/"$BT_IFACE"/operstate)" == "up" ]; then
     UPSTREAM_IFACE=$(whiptail --inputbox "What is the Upstream Interface name?" $LINES $COLUMNS "$UPSTREAM_IFACE" --title "Interface name" 3>&1 1>&2 2>&3)
     exitstatus=$?
     if [ $exitstatus = 0 ]; then
         echo "User selected Ok and entered $UPSTREAM_IFACE"
-        #UPSTREAM_IFACE="2:-${UPSTREAM_IFACE}"
     else
         echo "User selected Cancel."
+        exit 0
     fi
 
-    echo "(Exit status was $exitstatus)"
+    validate_iface "$UPSTREAM_IFACE" || exit 1
+
     # name of the ethernet gadget interface on the host
     BT_IFACE=${1:-$BT_IFACE}
     BT_IFACE_IP="10.0.0.1"
@@ -30,17 +44,19 @@ if [ "$(cat /sys/class/net/"$BT_IFACE"/operstate)" == "up" ]; then
     sudo ip addr add "$BT_IFACE_IP/24" dev "$BT_IFACE"
     sudo ip link set "$BT_IFACE" up
 
+    # Use iptables-restore for safer rule management
     sudo iptables -A FORWARD -o "$UPSTREAM_IFACE" -i "$BT_IFACE" -s "$BT_IFACE_NET" -m conntrack --ctstate NEW -j ACCEPT
     sudo iptables -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
-    sudo iptables -t nat -F POSTROUTING
+    # Only flush rules for this specific chain, not all NAT rules
+    sudo iptables -t nat -D POSTROUTING -o "$UPSTREAM_IFACE" -j MASQUERADE 2>/dev/null || true
     sudo iptables -t nat -A POSTROUTING -o "$UPSTREAM_IFACE" -j MASQUERADE
 
     if [ "$(cat /proc/sys/net/ipv4/ip_forward)" != "1" ]; then
-        echo 1 | sudo tee -a /proc/sys/net/ipv4/ip_forward
+        echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward
     fi
 
     ssh "pi@10.0.0.2" "ping 1.1.1.1"
     export CURR_CONN="BT"
 else
-    echo "$BT_IFACE seem to be: $(cat "/sys/class/net/$BT_IFACE/operstate")"
+    echo "$BT_IFACE seems to be: $(cat "/sys/class/net/$BT_IFACE/operstate")"
 fi
