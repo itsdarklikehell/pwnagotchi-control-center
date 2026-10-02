@@ -17,7 +17,7 @@ jobs:
           fetch-depth: 0
 
       - name: Install Gource
-        run: sudo apt-get update && sudo apt-get install -y gource ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y gource ffmpeg xvfb
 
       - name: Generate Gource video
         run: |
@@ -25,7 +25,8 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
-          gource --max-files 1000 --key -800x600 \
+          xvfb-run --auto-servernum --server-args="-screen 0 1280x720x24" \
+            gource --max-files 1000 --key -800x600 \
             --highlight-users --filename-time 3 --output-framerate 25 \
             -s 0.6 --multi-sampling --auto-skip-seconds 0.1 \
             --stop-at-end --hide mouse,progress -o gource.ppm
@@ -34,9 +35,9 @@ jobs:
             -vcodec libx264 -preset medium -pix_fmt yuv420p \
             -crf 1 -threads 0 -bf 0 gource.mp4
 
-          ffmpeg -i gource.mp4 -c:v libx264 -crf 19 -level 3.1 \
+          ffmpeg -y -i gource.mp4 -c:v libx264 -crf 19 -level 3.1 \
             -preset slow -tune film -filter:v scale=-1:720 \
-            -sws_flags lanczos -c:a libfdk_aac -vbr 5 output.mp4
+            -sws_flags lanczos -an output.mp4
 
       - name: Upload Gource video
         uses: actions/upload-artifact@v7
