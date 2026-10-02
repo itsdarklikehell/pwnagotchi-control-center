@@ -63,6 +63,6 @@ if [ "$option" == "Enable Plugin" ]; then
     ./Scripts/Remote/plugin-enable.sh
 fi
 
-if [ "$option" == "Disable Plugin Config" ]; then
+if [ "$option" == "Disable Plugin" ]; then
     ./Scripts/Remote/plugin-disable.sh
 fi
