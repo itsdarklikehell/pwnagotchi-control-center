@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 # Set terminal size for whiptail dialogs
 if command -v resize &>/dev/null; then

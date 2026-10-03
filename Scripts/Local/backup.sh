@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 BACKUP() {
     if [ -z "$SD_DEVICE" ]; then
         echo "$SD_DEVICE Variable is not set, make sure the corect value is set in .config/config..."

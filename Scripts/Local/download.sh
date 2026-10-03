@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 cd "$BACKUP_DIR" || exit
 if [ ! -f "pwnagotchi-raspbian-lite-$PWNAGOTCHI_VERSION.zip" ]; then
     echo "Downloading pwnagotchi-raspbian-lite-$PWNAGOTCHI_VERSION.zip"

@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 if [ -z "$CURR_CONN" ]; then
     echo "CURR_CONN is not set, please run one of the Connection Setup scripts first."
 else

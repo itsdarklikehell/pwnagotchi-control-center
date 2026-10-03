@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 PLUGINNAME=$(whiptail --inputbox "What is the plugin name?" $LINES $COLUMNS "$PLUGINNAME" --title "Plugin name" 3>&1 1>&2 2>&3)
 exitstatus=$?
 if [ $exitstatus = 0 ]; then

@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 # Modify config.toml on the SD card's boot partition
 
 MOUNT() {

@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 MOUNT() {
     cd "$BACKUP_DIR" || exit
     if [ -z "$SD_DEVICE" ]; then

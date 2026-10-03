@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 option=$(
     whiptail --title "Main Menu." --menu "Choose an option" $LINES $COLUMNS $(($LINES - 8)) \
         "Setup usb-ethernet connection" "Setup a usb-ethernet connection share with a pwnagotchi." \

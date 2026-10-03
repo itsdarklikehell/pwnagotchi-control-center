@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 option=$(
     whiptail --title "Main Menu." --menu "Choose an option" $LINES $COLUMNS $(($LINES - 8)) \
         "Download Image" "Download the pwnagotchi image." \

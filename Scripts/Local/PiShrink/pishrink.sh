@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 version="v0.1.3"
 
