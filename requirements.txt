@@ -1,0 +1,4 @@
+# pwnagotchi-control-center dependencies
+# Shell scripts - geen Python dependencies nodig
+# Optioneel voor GUI:
+# python3-tk
