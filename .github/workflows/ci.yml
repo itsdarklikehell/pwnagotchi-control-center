@@ -1,10 +1,35 @@
 name: CI
+
 on:
   push:
-    branches: ["main","main","master"]
+    branches: [main, master]
   pull_request:
-    branches: ["main","main","master"]
+    branches: [main, master]
   workflow_dispatch:
+
 jobs:
-  ci:
-    uses: itsdarklikehell/ci-templates/.github/workflows/ci-generic.yml@v1
+  shell-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Shell script syntax check
+        run: |
+          find . -name "*.sh" -exec bash -n {} \; 2>&1
+
+      - name: Check shell scripts have set -e
+        run: |
+          for f in $(find . -name "*.sh"); do
+            if ! grep -q "set -e" "$f"; then
+              echo "::warning::$f missing 'set -e'"
+            fi
+          done
+
+      - name: Check for common shell issues
+        run: |
+          # Check for curl without --fail
+          for f in $(find . -name "*.sh"); do
+            if grep -q "curl " "$f" && ! grep -q -- "--fail" "$f"; then
+              echo "::warning::$f has curl without --fail"
+            fi
+          done
