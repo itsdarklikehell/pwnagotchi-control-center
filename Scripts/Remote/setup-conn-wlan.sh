@@ -1,5 +1,34 @@
 #!/bin/bash
-set -e
+set -euo pipefail
+
+# Logging
+LOG_DIR="${BACKUP_DIR:-$PWD}/logs"
+mkdir -p "$LOG_DIR"
+LOG_FILE="$LOG_DIR/setup-conn-wlan_$(date '+%F-%T').log"
+exec 1> >(tee -a "$LOG_FILE")
+exec 2> >(tee -a "$LOG_FILE" >&2)
+
+log() {
+    echo "[$(date '+%F %T')] $*"
+}
+
+# Check dependencies
+for cmd in ip iptables ssh ping whiptail; do
+    if ! command -v "$cmd" &>/dev/null; then
+        log "ERROR: $cmd is not installed. Please install it first."
+        exit 1
+    fi
+done
+
+# Cleanup trap
+cleanup() {
+    local exit_code=$?
+    if [ $exit_code -ne 0 ]; then
+        log "ERROR: WLAN connection setup failed with exit code $exit_code"
+    fi
+    exit $exit_code
+}
+trap cleanup EXIT
 
 # Validate interface exists
 validate_iface() {
@@ -14,9 +43,9 @@ validate_iface() {
 WLAN_IFACE=$(whiptail --inputbox "What is the WLAN Interface name?" $LINES $COLUMNS "$WLAN_IFACE" --title "Interface name" 3>&1 1>&2 2>&3)
 exitstatus=$?
 if [ $exitstatus = 0 ]; then
-    echo "User selected Ok and entered $WLAN_IFACE"
+    log "User selected Ok and entered $WLAN_IFACE"
 else
-    echo "User selected Cancel."
+    log "User selected Cancel."
     exit 0
 fi
 
@@ -26,9 +55,9 @@ if [ "$(cat /sys/class/net/"$WLAN_IFACE"/operstate)" == "up" ]; then
     UPSTREAM_IFACE=$(whiptail --inputbox "What is the Upstream Interface name?" $LINES $COLUMNS "$UPSTREAM_IFACE" --title "Interface name" 3>&1 1>&2 2>&3)
     exitstatus=$?
     if [ $exitstatus = 0 ]; then
-        echo "User selected Ok and entered $UPSTREAM_IFACE"
+        log "User selected Ok and entered $UPSTREAM_IFACE"
     else
-        echo "User selected Cancel."
+        log "User selected Cancel."
         exit 0
     fi
 
@@ -41,6 +70,7 @@ if [ "$(cat /sys/class/net/"$WLAN_IFACE"/operstate)" == "up" ]; then
     # host interface to use for upstream connection
     UPSTREAM_IFACE=${2:-$UPSTREAM_IFACE}
 
+    log "Setting up WLAN connection: $WLAN_IFACE -> $UPSTREAM_IFACE"
     sudo ip addr add "$WLAN_IFACE_IP/24" dev "$WLAN_IFACE"
     sudo ip link set "$WLAN_IFACE" up
 
@@ -57,6 +87,7 @@ if [ "$(cat /sys/class/net/"$WLAN_IFACE"/operstate)" == "up" ]; then
 
     ssh "pi@10.0.0.2" "ping 1.1.1.1"
     export CURR_CONN="WLAN"
+    log "WLAN connection setup complete."
 else
-    echo "$WLAN_IFACE seems to be: $(cat "/sys/class/net/$WLAN_IFACE/operstate")"
+    log "$WLAN_IFACE seems to be: $(cat "/sys/class/net/$WLAN_IFACE/operstate")"
 fi

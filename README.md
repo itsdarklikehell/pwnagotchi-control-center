@@ -16,6 +16,7 @@ A menu-driven control center for managing a [pwnagotchi](https://github.com/evil
 - `dd`, `mount`, `umount` (SD card operations)
 - `ssh` (remote operations)
 - `sudo` access (for mounting, iptables, etc.)
+- `bats` (for running tests, optional)
 
 ## Quick Start
 
@@ -53,7 +54,8 @@ All settings are in `.config/config`. Key variables:
 | `PWNAGOTCHI_ETHIP` | Ethernet IP | `192.168.1.6` |
 | `PWNAGOTCHI_WLANIP` | WLAN IP | `192.168.1.6` |
 | `CUSTOM_PLUGIN_DIR` | Custom plugins path | `/home/pi/pwnagotchi-control-center/pwnagotchi-plugins-contrib` |
-| `HANDSHAKE_DIR` | Handshakes directory | `/root/hanshakes` |
+| `HANDSHAKE_DIR` | Handshakes directory | `/root/handshakes` |
+| `CURR_CONN` | Current connection type (set by setup scripts) | `""` (empty) |
 
 ## Usage
 
@@ -98,6 +100,63 @@ Each script will:
 2. Validate the interface exists
 3. Configure IP forwarding and NAT
 4. Test connectivity
+
+## Features
+
+- **Logging**: All scripts log to `logs/` directory with timestamps
+- **Dependency checks**: Scripts verify required tools are installed before running
+- **Error handling**: `set -euo pipefail` and trap-based cleanup on all scripts
+- **Safe file operations**: `cp -r` for directories, `mkdir -p` for parent creation
+- **Editor fallback**: Uses `$EDITOR` environment variable, falls back to `nano`
+- **Connection state**: `CURR_CONN` variable tracks active connection type
+
+## Testing
+
+Run the test suite with [bats](https://github.com/bats-core/bats-core):
+
+```bash
+# Install bats (if not already installed)
+sudo apt install bats
+
+# Run all tests
+bats tests/
+
+# Run with verbose output
+bats --verbose-run tests/
+```
+
+The test suite covers:
+- Script existence and executability
+- Shebang and `set -euo pipefail` compliance
+- Configuration file validation
+- Dependency checks
+- Function presence (validate_iface, MOUNT, UNMOUNT, etc.)
+- Menu option completeness
+- Error handling patterns
+
+## Security
+
+- All scripts use `set -euo pipefail` for strict error handling
+- Temporary files are cleaned up via trap handlers
+- No hardcoded credentials — all configuration in `.config/config`
+- SSH operations use key-based authentication (configure in `.ssh/config`)
+- `sudo` operations are limited to specific commands
+
+## License
+
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+
+## Contributing
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+
+## Code of Conduct
+
+This project adheres to the [Contributor Covenant](CODE_OF_CONDUCT.md) Code of Conduct.
+
+## Support
+
+For support, please open an issue on GitHub or refer to [SUPPORT.md](SUPPORT.md).
 
 ## See: (references)
 

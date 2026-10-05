@@ -17,11 +17,11 @@ jobs:
         run: |
           find . -name "*.sh" -exec bash -n {} \; 2>&1
 
-      - name: Check shell scripts have set -e
+      - name: Check shell scripts have set -euo pipefail
         run: |
-          for f in $(find . -name "*.sh"); do
-            if ! grep -q "set -e" "$f"; then
-              echo "::warning::$f missing 'set -e'"
+          for f in $(find . -name "*.sh" -not -path "./tests/*" -not -path "./.git/*"); do
+            if ! grep -q "set -euo pipefail" "$f"; then
+              echo "::$f missing 'set -euo pipefail'"
             fi
           done
 
@@ -30,6 +30,84 @@ jobs:
           # Check for curl without --fail
           for f in $(find . -name "*.sh"); do
             if grep -q "curl " "$f" && ! grep -q -- "--fail" "$f"; then
-              echo "::warning::$f has curl without --fail"
+              echo "::$f has curl without --fail"
             fi
           done
+
+      - name: Check for hardcoded nano
+        run: |
+          for f in $(find . -name "*.sh" -not -path "./tests/*" -not -path "./.git/*"); do
+            if grep -q "nano " "$f"; then
+              echo "::$f has hardcoded nano (use \$EDITOR instead)"
+            fi
+          done
+
+      - name: Check for sudo apt install without check
+        run: |
+          for f in $(find . -name "*.sh" -not -path "./tests/*" -not -path "./.git/*"); do
+            if grep -q "sudo apt install" "$f"; then
+              echo "::$f has sudo apt install without dependency check"
+            fi
+          done
+
+      - name: Check for mkdir without -p
+        run: |
+          for f in $(find . -name "*.sh" -not -path "./tests/*" -not -path "./.git/*"); do
+            if grep -q "mkdir " "$f" && ! grep -q "mkdir -p" "$f"; then
+              echo "::$f has mkdir without -p"
+            fi
+          done
+
+      - name: Check for cp without -r
+        run: |
+          for f in $(find . -name "*.sh" -not -path "./tests/*" -not -path "./.git/*"); do
+            if grep -q "cp " "$f" && ! grep -q "cp -r" "$f"; then
+              echo "::$f has cp without -r"
+            fi
+          done
+
+      - name: Check for exit without 1
+        run: |
+          for f in $(find . -name "*.sh" -not -path "./tests/*" -not -path "./.git/*"); do
+            if grep -q "exit$" "$f"; then
+              echo "::$f has exit without 1"
+            fi
+          done
+
+      - name: Check for command -v checks
+        run: |
+          for f in $(find . -name "*.sh" -not -path "./tests/*" -not -path "./.git/*"); do
+            if ! grep -q "command -v" "$f"; then
+              echo "::$f missing command -v checks"
+            fi
+          done
+
+      - name: Check for trap cleanup
+        run: |
+          for f in $(find . -name "*.sh" -not -path "./tests/*" -not -path "./.git/*"); do
+            if ! grep -q "trap" "$f"; then
+              echo "::$f missing trap cleanup"
+            fi
+          done
+
+      - name: Check for logging
+        run: |
+          for f in $(find . -name "*.sh" -not -path "./tests/*" -not -path "./.git/*"); do
+            if ! grep -q "log\|LOG" "$f"; then
+              echo "::$f missing logging"
+            fi
+          done
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install bats
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y bats
+
+      - name: Run tests
+        run: |
+          bats tests/

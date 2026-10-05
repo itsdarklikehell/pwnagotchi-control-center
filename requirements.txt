@@ -1,4 +1,9 @@
 # pwnagotchi-control-center dependencies
-# Shell scripts - geen Python dependencies nodig
-# Optioneel voor GUI:
+# Shell scripts - no Python dependencies required
+# Optional for GUI:
 # python3-tk
+
+# Test dependencies (optional, for running tests):
+# bats (Bash Automated Testing System)
+# Install on Debian/Ubuntu: sudo apt install bats
+# Install on macOS: brew install bats-core
