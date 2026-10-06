@@ -1,5 +1,4 @@
 name: CI
-
 on:
   push:
     branches: [main, master]
@@ -33,3 +32,9 @@ jobs:
               echo "::warning::$f has curl without --fail"
             fi
           done
+
+      - name: ShellCheck
+        uses: ludeeus/action-shellcheck@master
+        with:
+          scandir: './Scripts'
+          format: gcc
