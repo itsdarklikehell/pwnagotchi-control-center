@@ -5,48 +5,113 @@ on:
     branches: [main, master]
   workflow_dispatch:
 
+concurrency:
+  group: gource-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   gource:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Install Gource
-        run: sudo apt-get update && sudo apt-get install -y gource ffmpeg
-
       - name: Generate Gource video
+        uses: nbprojekt/gource-action@v1.3.0
+        with:
+          gource_title: "${{ github.event.repository.name }} development timeline"
+          gource_resolution: 1080p
+          gource_fps: 60
+          gource_filename_time: 3
+          gource_hide_items: "mouse,date,filenames"
+          gource_max_files: 1500
+          gource_highlight_users: true
+          gource_output_framerate: 30
+          gource_stop_at_end: true
+          gource_auto_skip_seconds: 0.1
+          gource_multi_sampling: true
+          gource_seconds_per_day: 0.4
+
+      # The action writes to gource/gource.mp4 — not ./gource.mp4.
+      # Do not assume ffmpeg is in the runner image.
+      - name: Install ffmpeg
         run: |
-          gource --max-files 1000 --key -800x600 \
-            --highlight-users --filename-time 3 --output-framerate 25 \
-            -s 0.6 --multi-sampling --auto-skip-seconds 0.1 \
-            --stop-at-end --hide mouse,progress -o gource.ppm
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+          ffmpeg -version | head -1
 
-          ffmpeg -y -r 15 -f image2pipe -vcodec ppm -i gource.ppm \
-            -vcodec libx264 -preset medium -pix_fmt yuv420p \
-            -crf 1 -threads 0 -bf 0 gource.mp4
+      # Re-encode must stay lossy. A near-lossless crf (e.g. crf 1) produced
+      # 398 MB files, which GitHub rejects on push:
+      #   GH001: Large files detected ... exceeds GitHub's file size limit
+      #   of 100.00 MB
+      # The guard below re-encodes harder if the first pass is still too big,
+      # so the commit can never fail on size.
+      - name: Re-encode (size-guarded)
+        run: |
+          set -euo pipefail
+          test -f gource/gource.mp4
 
-          ffmpeg -i gource.mp4 -c:v libx264 -crf 19 -level 3.1 \
-            -preset slow -tune film -filter:v scale=-1:720 \
-            -sws_flags lanczos -c:a libfdk_aac -vbr 5 output.mp4
+          LIMIT=$((95 * 1024 * 1024))   # 95 MiB, under GitHub's 100 MB hard cap
 
-      - name: Upload Gource video
-        uses: actions/upload-artifact@v7
+          ffmpeg -y -i gource/gource.mp4 \
+            -c:v libx264 -crf 20 -level 4.1 -preset medium -tune film \
+            -filter:v "scale=-1:1080" -sws_flags lanczos \
+            -c:a aac -b:a 192k -ar 48000 \
+            -movflags +faststart \
+            gource.mp4
+
+          size=$(stat -c%s gource.mp4)
+          echo "pass 1 (1080p crf 20): $((size / 1024 / 1024)) MiB"
+
+          if [ "$size" -gt "$LIMIT" ]; then
+            echo "over limit — falling back to 720p crf 26"
+            ffmpeg -y -i gource/gource.mp4 \
+              -c:v libx264 -crf 26 -preset medium -tune film \
+              -filter:v "scale=-1:720" -sws_flags lanczos \
+              -c:a aac -b:a 128k -ar 48000 \
+              -movflags +faststart \
+              gource-720p.mp4
+            mv gource-720p.mp4 gource.mp4
+            size=$(stat -c%s gource.mp4)
+            echo "pass 2 (720p crf 26): $((size / 1024 / 1024)) MiB"
+          fi
+
+          if [ "$size" -gt "$LIMIT" ]; then
+            echo "::error::gource.mp4 still $((size / 1024 / 1024)) MiB after fallback"
+            exit 1
+          fi
+
+      - name: Upload gource video
+        uses: actions/upload-artifact@v4
         with:
           name: gource-visualization
-          path: output.mp4
+          path: ./gource.mp4
           retention-days: 30
 
-
-      - name: Commit gource.mp4 to repo
+      - name: Commit gource video
         run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          cp output.mp4 gource.mp4
-          git add gource.mp4
-          git diff --staged --quiet || git commit -m "ci: update gource visualization (automated)"
-          git push
+          git add -f gource.mp4
+          if git diff --staged --quiet; then
+            echo "no change in gource.mp4"
+            exit 0
+          fi
+          git commit -m "ci: update gource visualization (automated)"
+          for attempt in 1 2 3; do
+            if git push; then
+              echo "pushed on attempt $attempt"
+              exit 0
+            fi
+            echo "push rejected (attempt $attempt) — rebasing on latest"
+            git fetch origin "${GITHUB_REF_NAME}"
+            git rebase "origin/${GITHUB_REF_NAME}" || git rebase --abort
+          done
+          echo "::error::push failed after 3 attempts"
+          exit 1
