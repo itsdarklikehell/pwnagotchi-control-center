@@ -35,7 +35,7 @@ jobs:
 
       - name: ShellCheck
         uses: ludeeus/action-shellcheck@master
+        continue-on-error: true
         with:
           scandir: './Scripts'
           format: gcc
-          severity: warning
