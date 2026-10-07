@@ -7,6 +7,27 @@ on:
   workflow_dispatch:
 
 jobs:
+  python-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install ruff
+        run: pip install ruff
+
+      - name: Run ruff
+        run: |
+          if [ -f ruff.toml ]; then
+            ruff check .
+          else
+            echo "::notice::No ruff.toml found; skipping ruff."
+          fi
+
   shell-check:
     runs-on: ubuntu-latest
     steps:
